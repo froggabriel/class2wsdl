@@ -10,19 +10,22 @@ namespace class2wsdl
     {
         static void Main(string[] args)
         {
-            String classStr = "";
-            if (args.Length == 1)
+            string assemblyStr;
+            string classStr;
+            if (args.Length == 2)
             {
-                classStr = args[0];
+                assemblyStr = args[0];
+                classStr = args[1];
             }
             else
             {
-                Console.WriteLine("1 parameter is required\n" +
-                    "Usage: class2wsdl.exe class");
+                Console.WriteLine("2 parameters are required\n" +
+                    "Usage: class2wsdl.exe [compiled program without extension] [class name]\n" +
+                    "Example: class2wsdl.exe ClassLibrary Class1");
                 return;
             }
 
-            new WSDLGenerator(classStr).Run();
+            new WSDLGenerator(assemblyStr, classStr).Run();
         }
     }
 }
