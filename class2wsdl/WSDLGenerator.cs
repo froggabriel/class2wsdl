@@ -166,7 +166,7 @@ namespace class2wsdl
             foreach (MethodInfo m in _methods)
             {
                 XElement element = new XElement("operation", new XAttribute("name", m.Name));
-                //element.Add(new XElement(soap+"operation", new XAttribute("soapAction", tns +"#"+ m.Name))); //MISSING SOMETHING
+                //element.Add(new XElement(soap+"operation", new XAttribute("soapAction", this._classType.Name #tns +"#"+ m.Name))); //MISSING SOMETHING
 
                 XElement input = new XElement("input");
                 input.Add(new XElement(soap + "body", new XAttribute("use", "literal")));
@@ -184,10 +184,16 @@ namespace class2wsdl
             definitions.Add(binding);
 
             // write service (Punto de comunicación con la clase HolaMundo)
-            service = new XElement(
-                xmlns + "service"
+            service = new XElement( xmlns + "service", 
+                new XAttribute("name", this._classType.Name),
+                    new XElement(xmlns + "documentation",
+                        new XElement(xmlns + "port",
+                            new XAttribute("name", this._classType.Name + "Port"),
+                            new XAttribute("binding", tns + this._classType.Name + "Binding"),
+                            new XElement(soap + "address", new XAttribute("location", "http://localhost:50503/")) //default for now
+                         )
+                    )
                 );
-
             definitions.Add(service);
 
             //otra forma, pero me estaba causando problemas
