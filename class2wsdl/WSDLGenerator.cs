@@ -17,14 +17,16 @@ namespace class2wsdl
         Type _classType;
         MethodInfo[] _methods;
         readonly string _wsdlStr;
-        
+
         public WSDLGenerator(string assemblyStr, string classStr)
         {
             try
             {
                 this._assembly = Assembly.Load(assemblyStr);
                 Console.WriteLine("Loaded assembly: " + assemblyStr);
-            } catch (FileNotFoundException e) {
+            }
+            catch (FileNotFoundException e)
+            {
                 Console.WriteLine(e.StackTrace);
             }
             this._classType = this._assembly.GetType(classStr);
@@ -46,11 +48,16 @@ namespace class2wsdl
 
         private void WriteWSDL()
         {
-            XmlWriter xmlWriter = XmlWriter.Create(this._wsdlStr);
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Encoding = Encoding.UTF8;
+            settings.Indent = true;
+            settings.IndentChars = "\t";
+            XmlWriter xmlWriter = XmlTextWriter.Create(this._wsdlStr, settings);
 
             XNamespace xmlns = "http://schemas.xmlsoap.org/wsdl/";
-            XNamespace xsd;
-            XNamespace soap;
+            XNamespace xsd = "http://www.w3.org/2001/XMLSchema";
+            XNamespace soap = "http://schemas.xmlsoap.org/wsdl/soap/";
+            XNamespace tns = "urn:" + this._classType.Name;
             XElement definitions;
             XElement types;
             XElement portType;
@@ -75,30 +82,104 @@ namespace class2wsdl
                 xmlns + "types",
                 new XAttribute("xmlns", "http://schemas.xmlsoap.org/wsdl/")
                 );
+            XElement schema = new XElement(xsd + "schema", new XAttribute("targetNamespace", "urn:" + this._classType.Name));
 
-            foreach(MethodInfo m in _methods) {
-                types.Add();//agregar elemento para cada método
+            // ComplexTypes
+            foreach (MethodInfo m in _methods)
+            {
+                //Params
+                XElement element = new XElement(xsd + "element", new XAttribute("name", m.Name));
+                XElement complexType = new XElement(xsd + "complexType");
+                XElement sequence;
+                if (m.GetParameters().Length > 0)
+                {
+                    sequence = new XElement(xsd + "sequence");
+
+                    foreach (ParameterInfo p in m.GetParameters())
+                    {
+                        XElement paramElement = new XElement(xsd + "element",
+                                                    new XAttribute("name", p.Name),
+                                                    new XAttribute("type", this.GetXsdType(p.GetType())),//TODO
+                                                    new XAttribute("nillable", !p.IsOptional)
+                                                    );
+                        sequence.Add(paramElement);
+                    }
+                    complexType.Add(sequence);
+                }
+                element.Add(complexType);
+
+                schema.Add(element);
+
+                //Returns
+                element = new XElement(xsd + "element", new XAttribute("name", m.Name + "Return"));
+                complexType = new XElement(xsd + "complexType");
+                sequence = new XElement(xsd + "sequence");
+
+                XElement resultElement = new XElement(xsd + "element",
+                                            new XAttribute("name", m.Name + "Result"),
+                                            new XAttribute("type", this.GetXsdType(m.ReturnType))//TODO
+                                            );
+                sequence.Add(resultElement);
+
+                complexType.Add(sequence);
+                element.Add(complexType);
+
+                schema.Add(element);
             }
-
+            types.Add(schema);
             definitions.Add(types);
 
-            // write messages (Mensajes para comunicarse con la clase)
-            //foreach
-            definitions.Add(new XElement(
-                xmlns + "message"
-                ));
+            //Message
+            foreach (MethodInfo m in _methods)
+            {
+                XElement element = new XElement(xmlns + "message", new XAttribute("name", m.Name + "Request"));
+                element.Add(new XElement("part", new XAttribute("name", "parameters"), new XAttribute("element", tns + m.Name)));
+                definitions.Add(element);
 
+                element = new XElement(xmlns + "message", new XAttribute("name", m.Name + "Response"));
+                element.Add(new XElement("part", new XAttribute("name", "parameters"), new XAttribute("element", tns + m.Name + "Return")));
+                definitions.Add(element);
+            }
+
+            //PortType
             // write portType (Puerto para comunicar con la clase)
-            portType = new XElement(
-                xmlns + "portType"
-                );
+            portType = new XElement( xmlns + "portType" );
+            foreach (MethodInfo m in _methods)
+            {
+                XElement element = new XElement("operation", new XAttribute("name", m.Name));
+                element.Add(new XElement("input", new XAttribute("message", tns + m.Name + "Request")));
+                element.Add(new XElement("output", new XAttribute("message", tns + m.Name + "Response")));
+
+                portType.Add(element);
+            }
 
             definitions.Add(portType);
 
             // write binding (Vinculación de los llamados con el transporte - document, SOAP over HTTP)
-            binding = new XElement(
-                xmlns + "binding"
-                );
+            binding = new XElement(  xmlns + "binding" );
+
+            binding.Add(new XElement(soap + "binding",
+                new XAttribute("style","document"),
+                new XAttribute("transport", "http://schemas.xmlsoap.org/soap/http")
+                ));
+
+            foreach (MethodInfo m in _methods)
+            {
+                XElement element = new XElement("operation", new XAttribute("name", m.Name));
+                //element.Add(new XElement(soap+"operation", new XAttribute("soapAction", tns +"#"+ m.Name))); //MISSING SOMETHING
+
+                XElement input = new XElement("input");
+                input.Add(new XElement(soap + "body", new XAttribute("use", "literal")));
+                element.Add(input);
+
+                XElement output = new XElement("output");
+                input.Add(new XElement(soap + "body", new XAttribute("use", "literal")));
+                element.Add(output);
+
+                binding.Add(element);
+            }
+
+            definitions.Add(portType);
 
             definitions.Add(binding);
 
@@ -123,6 +204,12 @@ namespace class2wsdl
             definitions.Save(xmlWriter);
             xmlWriter.Flush();
             xmlWriter.Close();
+        }
+
+        private object GetXsdType(Type type)
+        {
+            //TODO
+            return "xsd:string";
         }
     }
 }
