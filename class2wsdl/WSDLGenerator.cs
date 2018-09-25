@@ -31,6 +31,8 @@ namespace class2wsdl
             _classType = _assembly.GetType(classStr);
             Console.WriteLine("Got class type: " + this._classType.Name);
             _wsdlStr = classStr + ".wsdl";
+            newClasses = new ArrayList();
+            classes = new ArrayList();
         }
 
         public void Run()
@@ -206,19 +208,15 @@ namespace class2wsdl
 
         private object GetXsdType(Type type)
         {
-            if (type.IsPrimitive) {
-                return "xsd:" + type.Name;
+            if (type.IsPrimitive || type.Equals(typeof(String))) {
+                return "xsd:" + type.Name.ToLower();
             }
-            else if(classes.Contains(type))
-            {
-                return "tns:" + type.Name;
-            }
-            else
+            else if(!classes.Contains(type))
             {
                 newClasses.Add(type);
                 classes.Add(type);
-                return "tns:" + type.Name;
             }
+            return "tns:"+type.Name;
         }
 
         private void AddNewClasses(XElement schema, XNamespace xsd)

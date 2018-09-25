@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<definitions name="Class1" targetNamespace="urn:Class1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="urn:Class1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<types xmlns="http://schemas.xmlsoap.org/wsdl/">
+		<xsd:schema targetNamespace="urn:Class1">
+			<xsd:element name="get_Number">
+				<xsd:complexType />
+			</xsd:element>
+			<xsd:element name="get_NumberReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="get_NumberResult" type="xsd:double" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="set_Number">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="value" type="xsd:double" nillable="true" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="set_NumberReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="set_NumberResult" type="tns:Void" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Clear">
+				<xsd:complexType />
+			</xsd:element>
+			<xsd:complexType name="Void" />
+			<xsd:element name="ClearReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="ClearResult" type="tns:Void" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Add">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="number" type="xsd:double" nillable="true" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:complexType name="Void" />
+			<xsd:element name="AddReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="AddResult" type="xsd:double" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="get_Pi">
+				<xsd:complexType />
+			</xsd:element>
+			<xsd:complexType name="Void" />
+			<xsd:element name="get_PiReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="get_PiResult" type="xsd:double" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GetPi">
+				<xsd:complexType />
+			</xsd:element>
+			<xsd:complexType name="Void" />
+			<xsd:element name="GetPiReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="GetPiResult" type="xsd:double" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="add">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="x" type="tns:Person" nillable="true" />
+						<xsd:element name="y" type="tns:Person" nillable="true" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:complexType name="Void" />
+			<xsd:complexType name="Person" />
+			<xsd:element name="addReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="addResult" type="xsd:int32" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ToString">
+				<xsd:complexType />
+			</xsd:element>
+			<xsd:complexType name="Void" />
+			<xsd:complexType name="Person" />
+			<xsd:element name="ToStringReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="ToStringResult" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Equals">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="obj" type="tns:Object" nillable="true" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:complexType name="Void" />
+			<xsd:complexType name="Person" />
+			<xsd:complexType name="Object" />
+			<xsd:element name="EqualsReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="EqualsResult" type="xsd:boolean" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GetHashCode">
+				<xsd:complexType />
+			</xsd:element>
+			<xsd:complexType name="Void" />
+			<xsd:complexType name="Person" />
+			<xsd:complexType name="Object" />
+			<xsd:element name="GetHashCodeReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="GetHashCodeResult" type="xsd:int32" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GetType">
+				<xsd:complexType />
+			</xsd:element>
+			<xsd:complexType name="Void" />
+			<xsd:complexType name="Person" />
+			<xsd:complexType name="Object" />
+			<xsd:element name="GetTypeReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="GetTypeResult" type="tns:Type" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</types>
+	<message name="get_NumberRequest">
+		<part name="parameters" element="tns:get_Number" />
+	</message>
+	<message name="get_NumberResponse">
+		<part name="parameters" element="tns:get_NumberReturn" />
+	</message>
+	<message name="set_NumberRequest">
+		<part name="parameters" element="tns:set_Number" />
+	</message>
+	<message name="set_NumberResponse">
+		<part name="parameters" element="tns:set_NumberReturn" />
+	</message>
+	<message name="ClearRequest">
+		<part name="parameters" element="tns:Clear" />
+	</message>
+	<message name="ClearResponse">
+		<part name="parameters" element="tns:ClearReturn" />
+	</message>
+	<message name="AddRequest">
+		<part name="parameters" element="tns:Add" />
+	</message>
+	<message name="AddResponse">
+		<part name="parameters" element="tns:AddReturn" />
+	</message>
+	<message name="get_PiRequest">
+		<part name="parameters" element="tns:get_Pi" />
+	</message>
+	<message name="get_PiResponse">
+		<part name="parameters" element="tns:get_PiReturn" />
+	</message>
+	<message name="GetPiRequest">
+		<part name="parameters" element="tns:GetPi" />
+	</message>
+	<message name="GetPiResponse">
+		<part name="parameters" element="tns:GetPiReturn" />
+	</message>
+	<message name="addRequest">
+		<part name="parameters" element="tns:add" />
+	</message>
+	<message name="addResponse">
+		<part name="parameters" element="tns:addReturn" />
+	</message>
+	<message name="ToStringRequest">
+		<part name="parameters" element="tns:ToString" />
+	</message>
+	<message name="ToStringResponse">
+		<part name="parameters" element="tns:ToStringReturn" />
+	</message>
+	<message name="EqualsRequest">
+		<part name="parameters" element="tns:Equals" />
+	</message>
+	<message name="EqualsResponse">
+		<part name="parameters" element="tns:EqualsReturn" />
+	</message>
+	<message name="GetHashCodeRequest">
+		<part name="parameters" element="tns:GetHashCode" />
+	</message>
+	<message name="GetHashCodeResponse">
+		<part name="parameters" element="tns:GetHashCodeReturn" />
+	</message>
+	<message name="GetTypeRequest">
+		<part name="parameters" element="tns:GetType" />
+	</message>
+	<message name="GetTypeResponse">
+		<part name="parameters" element="tns:GetTypeReturn" />
+	</message>
+	<portType>
+		<operation name="get_Number">
+			<input message="tns:get_NumberRequest" />
+			<output message="tns:get_NumberResponse" />
+		</operation>
+		<operation name="set_Number">
+			<input message="tns:set_NumberRequest" />
+			<output message="tns:set_NumberResponse" />
+		</operation>
+		<operation name="Clear">
+			<input message="tns:ClearRequest" />
+			<output message="tns:ClearResponse" />
+		</operation>
+		<operation name="Add">
+			<input message="tns:AddRequest" />
+			<output message="tns:AddResponse" />
+		</operation>
+		<operation name="get_Pi">
+			<input message="tns:get_PiRequest" />
+			<output message="tns:get_PiResponse" />
+		</operation>
+		<operation name="GetPi">
+			<input message="tns:GetPiRequest" />
+			<output message="tns:GetPiResponse" />
+		</operation>
+		<operation name="add">
+			<input message="tns:addRequest" />
+			<output message="tns:addResponse" />
+		</operation>
+		<operation name="ToString">
+			<input message="tns:ToStringRequest" />
+			<output message="tns:ToStringResponse" />
+		</operation>
+		<operation name="Equals">
+			<input message="tns:EqualsRequest" />
+			<output message="tns:EqualsResponse" />
+		</operation>
+		<operation name="GetHashCode">
+			<input message="tns:GetHashCodeRequest" />
+			<output message="tns:GetHashCodeResponse" />
+		</operation>
+		<operation name="GetType">
+			<input message="tns:GetTypeRequest" />
+			<output message="tns:GetTypeResponse" />
+		</operation>
+	</portType>
+	<binding>
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="get_Number">
+			<soap:operation soapAction="urn:Class1/get_Number" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="set_Number">
+			<soap:operation soapAction="urn:Class1/set_Number" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="Clear">
+			<soap:operation soapAction="urn:Class1/Clear" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="Add">
+			<soap:operation soapAction="urn:Class1/Add" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="get_Pi">
+			<soap:operation soapAction="urn:Class1/get_Pi" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="GetPi">
+			<soap:operation soapAction="urn:Class1/GetPi" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="add">
+			<soap:operation soapAction="urn:Class1/add" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="ToString">
+			<soap:operation soapAction="urn:Class1/ToString" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="Equals">
+			<soap:operation soapAction="urn:Class1/Equals" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="GetHashCode">
+			<soap:operation soapAction="urn:Class1/GetHashCode" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="GetType">
+			<soap:operation soapAction="urn:Class1/GetType" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="Class1">
+		<documentation />
+		<port name="Class1Port" binding="tns:Class1Binding">
+			<soap:address location="http://localhost:50503/" />
+		</port>
+	</service>
+</definitions>

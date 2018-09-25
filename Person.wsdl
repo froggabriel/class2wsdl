@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<definitions name="Person" targetNamespace="urn:Person" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="urn:Person" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<types xmlns="http://schemas.xmlsoap.org/wsdl/">
+		<xsd:schema targetNamespace="urn:Person">
+			<xsd:element name="get_age">
+				<xsd:complexType />
+			</xsd:element>
+			<xsd:element name="get_ageReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="get_ageResult" type="xsd:int32" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="set_age">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="value" type="tns:RuntimeParameterInfo" nillable="true" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:complexType name="RuntimeParameterInfo" />
+			<xsd:element name="set_ageReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="set_ageResult" type="tns:Void" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="get_name">
+				<xsd:complexType />
+			</xsd:element>
+			<xsd:complexType name="RuntimeParameterInfo" />
+			<xsd:complexType name="Void" />
+			<xsd:element name="get_nameReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="get_nameResult" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="set_name">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="value" type="tns:RuntimeParameterInfo" nillable="true" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:complexType name="RuntimeParameterInfo" />
+			<xsd:complexType name="Void" />
+			<xsd:element name="set_nameReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="set_nameResult" type="tns:Void" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="getBMI">
+				<xsd:complexType />
+			</xsd:element>
+			<xsd:complexType name="RuntimeParameterInfo" />
+			<xsd:complexType name="Void" />
+			<xsd:element name="getBMIReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="getBMIResult" type="xsd:double" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ToString">
+				<xsd:complexType />
+			</xsd:element>
+			<xsd:complexType name="RuntimeParameterInfo" />
+			<xsd:complexType name="Void" />
+			<xsd:element name="ToStringReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="ToStringResult" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Equals">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="obj" type="tns:RuntimeParameterInfo" nillable="true" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:complexType name="RuntimeParameterInfo" />
+			<xsd:complexType name="Void" />
+			<xsd:element name="EqualsReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="EqualsResult" type="xsd:boolean" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GetHashCode">
+				<xsd:complexType />
+			</xsd:element>
+			<xsd:complexType name="RuntimeParameterInfo" />
+			<xsd:complexType name="Void" />
+			<xsd:element name="GetHashCodeReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="GetHashCodeResult" type="xsd:int32" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GetType">
+				<xsd:complexType />
+			</xsd:element>
+			<xsd:complexType name="RuntimeParameterInfo" />
+			<xsd:complexType name="Void" />
+			<xsd:element name="GetTypeReturn">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="GetTypeResult" type="tns:Type" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</types>
+	<message name="get_ageRequest">
+		<part name="parameters" element="tns:get_age" />
+	</message>
+	<message name="get_ageResponse">
+		<part name="parameters" element="tns:get_ageReturn" />
+	</message>
+	<message name="set_ageRequest">
+		<part name="parameters" element="tns:set_age" />
+	</message>
+	<message name="set_ageResponse">
+		<part name="parameters" element="tns:set_ageReturn" />
+	</message>
+	<message name="get_nameRequest">
+		<part name="parameters" element="tns:get_name" />
+	</message>
+	<message name="get_nameResponse">
+		<part name="parameters" element="tns:get_nameReturn" />
+	</message>
+	<message name="set_nameRequest">
+		<part name="parameters" element="tns:set_name" />
+	</message>
+	<message name="set_nameResponse">
+		<part name="parameters" element="tns:set_nameReturn" />
+	</message>
+	<message name="getBMIRequest">
+		<part name="parameters" element="tns:getBMI" />
+	</message>
+	<message name="getBMIResponse">
+		<part name="parameters" element="tns:getBMIReturn" />
+	</message>
+	<message name="ToStringRequest">
+		<part name="parameters" element="tns:ToString" />
+	</message>
+	<message name="ToStringResponse">
+		<part name="parameters" element="tns:ToStringReturn" />
+	</message>
+	<message name="EqualsRequest">
+		<part name="parameters" element="tns:Equals" />
+	</message>
+	<message name="EqualsResponse">
+		<part name="parameters" element="tns:EqualsReturn" />
+	</message>
+	<message name="GetHashCodeRequest">
+		<part name="parameters" element="tns:GetHashCode" />
+	</message>
+	<message name="GetHashCodeResponse">
+		<part name="parameters" element="tns:GetHashCodeReturn" />
+	</message>
+	<message name="GetTypeRequest">
+		<part name="parameters" element="tns:GetType" />
+	</message>
+	<message name="GetTypeResponse">
+		<part name="parameters" element="tns:GetTypeReturn" />
+	</message>
+	<portType>
+		<operation name="get_age">
+			<input message="tns:get_ageRequest" />
+			<output message="tns:get_ageResponse" />
+		</operation>
+		<operation name="set_age">
+			<input message="tns:set_ageRequest" />
+			<output message="tns:set_ageResponse" />
+		</operation>
+		<operation name="get_name">
+			<input message="tns:get_nameRequest" />
+			<output message="tns:get_nameResponse" />
+		</operation>
+		<operation name="set_name">
+			<input message="tns:set_nameRequest" />
+			<output message="tns:set_nameResponse" />
+		</operation>
+		<operation name="getBMI">
+			<input message="tns:getBMIRequest" />
+			<output message="tns:getBMIResponse" />
+		</operation>
+		<operation name="ToString">
+			<input message="tns:ToStringRequest" />
+			<output message="tns:ToStringResponse" />
+		</operation>
+		<operation name="Equals">
+			<input message="tns:EqualsRequest" />
+			<output message="tns:EqualsResponse" />
+		</operation>
+		<operation name="GetHashCode">
+			<input message="tns:GetHashCodeRequest" />
+			<output message="tns:GetHashCodeResponse" />
+		</operation>
+		<operation name="GetType">
+			<input message="tns:GetTypeRequest" />
+			<output message="tns:GetTypeResponse" />
+		</operation>
+	</portType>
+	<binding>
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="get_age">
+			<soap:operation soapAction="urn:Person/get_age" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="set_age">
+			<soap:operation soapAction="urn:Person/set_age" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="get_name">
+			<soap:operation soapAction="urn:Person/get_name" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="set_name">
+			<soap:operation soapAction="urn:Person/set_name" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="getBMI">
+			<soap:operation soapAction="urn:Person/getBMI" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="ToString">
+			<soap:operation soapAction="urn:Person/ToString" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="Equals">
+			<soap:operation soapAction="urn:Person/Equals" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="GetHashCode">
+			<soap:operation soapAction="urn:Person/GetHashCode" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+		<operation name="GetType">
+			<soap:operation soapAction="urn:Person/GetType" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+	<service name="Person">
+		<documentation />
+		<port name="PersonPort" binding="tns:PersonBinding">
+			<soap:address location="http://localhost:50503/" />
+		</port>
+	</service>
+</definitions>
