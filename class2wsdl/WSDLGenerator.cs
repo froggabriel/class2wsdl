@@ -14,6 +14,8 @@ namespace class2wsdl
         Type _classType;
         MethodInfo[] _methods;
         readonly string _wsdlStr;
+        ArrayList classes= new ArrayList();
+        ArrayList newClasses = new ArrayList();
 
         public WSDLGenerator(string assemblyStr, string classStr)
         {
@@ -71,7 +73,6 @@ namespace class2wsdl
             var schema = new XElement(xsd + "schema", new XAttribute("targetNamespace", "urn:" + _classType.Name));
 
             // ComplexTypes
-            ArrayList classes = new ArrayList();
             foreach (MethodInfo m in _methods)
             {
                 //Params
@@ -79,7 +80,6 @@ namespace class2wsdl
                 var complexType = new XElement(xsd + "complexType");
                 XElement sequence;
                 XElement paramElement;
-                ArrayList newClasses = new ArrayList();
                 if (m.GetParameters().Length > 0)
                 {
                     sequence = new XElement(xsd + "sequence");
@@ -88,7 +88,7 @@ namespace class2wsdl
                     {
                         paramElement = new XElement(xsd + "element",
                                                     new XAttribute("name", p.Name),
-                                                    new XAttribute("type", GetXsdType(p.GetType(), classes, newClasses)),//TODO
+                                                    new XAttribute("type", GetXsdType(p.ParameterType)),//TODO
                                                     new XAttribute("nillable", !p.IsOptional)
                                                     );
                         sequence.Add(paramElement);
@@ -100,15 +100,7 @@ namespace class2wsdl
                 schema.Add(element);
 
                 //new classes
-                foreach (Type newClass in newClasses)
-                {
-                    schema.Add(
-                        new XElement(
-                            xsd + "complexType",
-                            new XAttribute("name", newClass.Name)
-                            )
-                        );
-                }
+                AddNewClasses(schema, xsd);
 
                 //Returns
                 element = new XElement(xsd + "element", new XAttribute("name", m.Name + "Return"));
@@ -117,7 +109,7 @@ namespace class2wsdl
 
                 var resultElement = new XElement(xsd + "element",
                                             new XAttribute("name", m.Name + "Result"),
-                                            new XAttribute("type", GetXsdType(m.ReturnType, classes, newClasses))//TODO
+                                            new XAttribute("type", GetXsdType(m.ReturnType))//TODO
                                             );
                 sequence.Add(resultElement);
 
@@ -125,6 +117,9 @@ namespace class2wsdl
                 element.Add(complexType);
 
                 schema.Add(element);
+
+                //new classes
+                AddNewClasses(schema, xsd);
             }
             types.Add(schema);
             definitions.Add(types);
@@ -209,7 +204,7 @@ namespace class2wsdl
             xmlWriter.Close();
         }
 
-        private object GetXsdType(Type type, ArrayList classes, ArrayList newClasses)
+        private object GetXsdType(Type type)
         {
             if (type.IsPrimitive) {
                 return "xsd:" + type.Name;
@@ -224,6 +219,20 @@ namespace class2wsdl
                 classes.Add(type);
                 return "tns:" + type.Name;
             }
+        }
+
+        private void AddNewClasses(XElement schema, XNamespace xsd)
+        {
+            foreach (Type newClass in newClasses)
+            {
+                schema.Add(
+                    new XElement(
+                        xsd + "complexType",
+                        new XAttribute("name", newClass.Name)
+                        )
+                    );
+            }
+            newClasses.Clear();
         }
     }
 }
