@@ -70,7 +70,12 @@
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
-			<xsd:complexType name="Person" />
+			<xsd:complexType name="Person">
+				<xsd:sequence>
+					<xsd:element name="age" type="xsd:integer" nillable="false" />
+					<xsd:element name="name" type="xsd:string" nillable="false" />
+				</xsd:sequence>
+			</xsd:complexType>
 			<xsd:element name="addReturn">
 				<xsd:complexType>
 					<xsd:sequence>
@@ -78,6 +83,12 @@
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
+			<xsd:complexType name="Person">
+				<xsd:sequence>
+					<xsd:element name="age" type="xsd:integer" nillable="false" />
+					<xsd:element name="name" type="xsd:string" nillable="false" />
+				</xsd:sequence>
+			</xsd:complexType>
 		</xsd:schema>
 	</types>
 	<message name="get_NumberRequest">

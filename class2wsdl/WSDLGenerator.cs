@@ -77,7 +77,7 @@ namespace class2wsdl
             // ComplexTypes
             foreach (MethodInfo m in _methods)
             {
-                if (m.Name.Equals("ToString") || m.Name.Equals("Equals") 
+                if (m.Name.Equals("ToString") || m.Name.Equals("Equals")
                     || m.Name.Equals("GetHashCode") || m.Name.Equals("GetType"))
                 {
                     continue;
@@ -220,7 +220,7 @@ namespace class2wsdl
         private object GetXsdType(Type type)
         {
 
-            if(type.IsPrimitive || type.Equals(typeof(String)))
+            if (type.IsPrimitive || type.Equals(typeof(String)))
             {
                 if (type.Name.StartsWith("Int") || type.Name.StartsWith("Int"))
                 {
@@ -245,12 +245,21 @@ namespace class2wsdl
         {
             foreach (Type newClass in newClasses)
             {
+                XElement sequence = new XElement(xsd + "sequence");
+                foreach (var p in newClass.GetProperties())
+                {
+                    sequence.Add(new XElement(xsd + "element",
+                                        new XAttribute("name", p.Name),
+                                        new XAttribute("type", GetXsdType(p.PropertyType)),//TODO
+                                        new XAttribute("nillable", p.PropertyType.IsSubclassOf(typeof(Nullable)))));
+                }
                 schema.Add(
                     new XElement(
                         xsd + "complexType",
-                        new XAttribute("name", newClass.Name)
-                        )
+                        new XAttribute("name", newClass.Name),
+                         sequence)
                     );
+
             }
             newClasses.Clear();
         }

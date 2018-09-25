@@ -22,12 +22,12 @@ public class Person
         set { name = value; }
     }
 
-    public double? height
+    public double height
     {
         get { return age; }
         set { height = value; }
     }
-    public double? weight
+    public double weight
     {
         get { return age; }
         set { weight = value; }
@@ -40,7 +40,7 @@ public class Person
         height = 0;
         weight = 0;
     }
-    public Person(int age, string name, double? height, double? weight)
+    public Person(int age, string name, double height, double weight)
     {
         this.age = age;
         this.name = name;
