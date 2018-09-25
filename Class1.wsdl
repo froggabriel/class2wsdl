@@ -20,22 +20,13 @@
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="set_NumberReturn">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="set_NumberResult" type="tns:Void" />
-					</xsd:sequence>
-				</xsd:complexType>
+				<xsd:complexType />
 			</xsd:element>
 			<xsd:element name="Clear">
 				<xsd:complexType />
 			</xsd:element>
-			<xsd:complexType name="Void" />
 			<xsd:element name="ClearReturn">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="ClearResult" type="tns:Void" />
-					</xsd:sequence>
-				</xsd:complexType>
+				<xsd:complexType />
 			</xsd:element>
 			<xsd:element name="Add">
 				<xsd:complexType>
@@ -44,7 +35,6 @@
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
-			<xsd:complexType name="Void" />
 			<xsd:element name="AddReturn">
 				<xsd:complexType>
 					<xsd:sequence>
@@ -55,7 +45,6 @@
 			<xsd:element name="get_Pi">
 				<xsd:complexType />
 			</xsd:element>
-			<xsd:complexType name="Void" />
 			<xsd:element name="get_PiReturn">
 				<xsd:complexType>
 					<xsd:sequence>
@@ -66,7 +55,6 @@
 			<xsd:element name="GetPi">
 				<xsd:complexType />
 			</xsd:element>
-			<xsd:complexType name="Void" />
 			<xsd:element name="GetPiReturn">
 				<xsd:complexType>
 					<xsd:sequence>
@@ -82,67 +70,11 @@
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
-			<xsd:complexType name="Void" />
 			<xsd:complexType name="Person" />
 			<xsd:element name="addReturn">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="addResult" type="xsd:int32" />
-					</xsd:sequence>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="ToString">
-				<xsd:complexType />
-			</xsd:element>
-			<xsd:complexType name="Void" />
-			<xsd:complexType name="Person" />
-			<xsd:element name="ToStringReturn">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="ToStringResult" type="xsd:string" />
-					</xsd:sequence>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="Equals">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="obj" type="tns:Object" nillable="true" />
-					</xsd:sequence>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:complexType name="Void" />
-			<xsd:complexType name="Person" />
-			<xsd:complexType name="Object" />
-			<xsd:element name="EqualsReturn">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="EqualsResult" type="xsd:boolean" />
-					</xsd:sequence>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="GetHashCode">
-				<xsd:complexType />
-			</xsd:element>
-			<xsd:complexType name="Void" />
-			<xsd:complexType name="Person" />
-			<xsd:complexType name="Object" />
-			<xsd:element name="GetHashCodeReturn">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="GetHashCodeResult" type="xsd:int32" />
-					</xsd:sequence>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="GetType">
-				<xsd:complexType />
-			</xsd:element>
-			<xsd:complexType name="Void" />
-			<xsd:complexType name="Person" />
-			<xsd:complexType name="Object" />
-			<xsd:element name="GetTypeReturn">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="GetTypeResult" type="tns:Type" />
+						<xsd:element name="addResult" type="xsd:integer" />
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -263,7 +195,7 @@
 	<binding>
 		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
 		<operation name="get_Number">
-			<soap:operation soapAction="urn:Class1/get_Number" style="document" />
+			<soap:operation soapAction="http://tempuri.org//get_Number" style="document" />
 			<input>
 				<soap:body use="literal" />
 			</input>
@@ -272,7 +204,7 @@
 			</output>
 		</operation>
 		<operation name="set_Number">
-			<soap:operation soapAction="urn:Class1/set_Number" style="document" />
+			<soap:operation soapAction="http://tempuri.org//set_Number" style="document" />
 			<input>
 				<soap:body use="literal" />
 			</input>
@@ -281,7 +213,7 @@
 			</output>
 		</operation>
 		<operation name="Clear">
-			<soap:operation soapAction="urn:Class1/Clear" style="document" />
+			<soap:operation soapAction="http://tempuri.org//Clear" style="document" />
 			<input>
 				<soap:body use="literal" />
 			</input>
@@ -290,7 +222,7 @@
 			</output>
 		</operation>
 		<operation name="Add">
-			<soap:operation soapAction="urn:Class1/Add" style="document" />
+			<soap:operation soapAction="http://tempuri.org//Add" style="document" />
 			<input>
 				<soap:body use="literal" />
 			</input>
@@ -299,7 +231,7 @@
 			</output>
 		</operation>
 		<operation name="get_Pi">
-			<soap:operation soapAction="urn:Class1/get_Pi" style="document" />
+			<soap:operation soapAction="http://tempuri.org//get_Pi" style="document" />
 			<input>
 				<soap:body use="literal" />
 			</input>
@@ -308,7 +240,7 @@
 			</output>
 		</operation>
 		<operation name="GetPi">
-			<soap:operation soapAction="urn:Class1/GetPi" style="document" />
+			<soap:operation soapAction="http://tempuri.org//GetPi" style="document" />
 			<input>
 				<soap:body use="literal" />
 			</input>
@@ -317,7 +249,7 @@
 			</output>
 		</operation>
 		<operation name="add">
-			<soap:operation soapAction="urn:Class1/add" style="document" />
+			<soap:operation soapAction="http://tempuri.org//add" style="document" />
 			<input>
 				<soap:body use="literal" />
 			</input>
@@ -326,7 +258,7 @@
 			</output>
 		</operation>
 		<operation name="ToString">
-			<soap:operation soapAction="urn:Class1/ToString" style="document" />
+			<soap:operation soapAction="http://tempuri.org//ToString" style="document" />
 			<input>
 				<soap:body use="literal" />
 			</input>
@@ -335,7 +267,7 @@
 			</output>
 		</operation>
 		<operation name="Equals">
-			<soap:operation soapAction="urn:Class1/Equals" style="document" />
+			<soap:operation soapAction="http://tempuri.org//Equals" style="document" />
 			<input>
 				<soap:body use="literal" />
 			</input>
@@ -344,7 +276,7 @@
 			</output>
 		</operation>
 		<operation name="GetHashCode">
-			<soap:operation soapAction="urn:Class1/GetHashCode" style="document" />
+			<soap:operation soapAction="http://tempuri.org//GetHashCode" style="document" />
 			<input>
 				<soap:body use="literal" />
 			</input>
@@ -353,7 +285,7 @@
 			</output>
 		</operation>
 		<operation name="GetType">
-			<soap:operation soapAction="urn:Class1/GetType" style="document" />
+			<soap:operation soapAction="http://tempuri.org//GetType" style="document" />
 			<input>
 				<soap:body use="literal" />
 			</input>
@@ -365,7 +297,7 @@
 	<service name="Class1">
 		<documentation />
 		<port name="Class1Port" binding="tns:Class1Binding">
-			<soap:address location="http://localhost:50503/" />
+			<soap:address location="http://tempuri.org/" />
 		</port>
 	</service>
 </definitions>

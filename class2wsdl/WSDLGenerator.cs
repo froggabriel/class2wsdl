@@ -14,7 +14,7 @@ namespace class2wsdl
         Type _classType;
         MethodInfo[] _methods;
         readonly string _wsdlStr;
-        ArrayList classes= new ArrayList();
+        ArrayList classes = new ArrayList();
         ArrayList newClasses = new ArrayList();
 
         public WSDLGenerator(string assemblyStr, string classStr)
@@ -52,7 +52,7 @@ namespace class2wsdl
             XNamespace xmlns = "http://schemas.xmlsoap.org/wsdl/";
             XNamespace xsd = "http://www.w3.org/2001/XMLSchema";
             XNamespace soap = "http://schemas.xmlsoap.org/wsdl/soap/";
-            XNamespace tns = "urn:" + _classType.Name;
+            XNamespace tns = "http://tempuri.org/";
 
             //write definitions
             var definitions = new XElement(
@@ -77,6 +77,12 @@ namespace class2wsdl
             // ComplexTypes
             foreach (MethodInfo m in _methods)
             {
+                if (m.Name.Equals("ToString") || m.Name.Equals("Equals") 
+                    || m.Name.Equals("GetHashCode") || m.Name.Equals("GetType"))
+                {
+                    continue;
+                }
+
                 //Params
                 var element = new XElement(xsd + "element", new XAttribute("name", m.Name));
                 var complexType = new XElement(xsd + "complexType");
@@ -105,17 +111,22 @@ namespace class2wsdl
                 AddNewClasses(schema, xsd);
 
                 //Returns
+
+
                 element = new XElement(xsd + "element", new XAttribute("name", m.Name + "Return"));
                 complexType = new XElement(xsd + "complexType");
-                sequence = new XElement(xsd + "sequence");
+                if (m.ReturnType != typeof(void))
+                {
+                    sequence = new XElement(xsd + "sequence");
 
-                var resultElement = new XElement(xsd + "element",
-                                            new XAttribute("name", m.Name + "Result"),
-                                            new XAttribute("type", GetXsdType(m.ReturnType))//TODO
-                                            );
-                sequence.Add(resultElement);
+                    var resultElement = new XElement(xsd + "element",
+                                                new XAttribute("name", m.Name + "Result"),
+                                                new XAttribute("type", GetXsdType(m.ReturnType))//TODO
+                                                );
+                    sequence.Add(resultElement);
 
-                complexType.Add(sequence);
+                    complexType.Add(sequence);
+                }
                 element.Add(complexType);
 
                 schema.Add(element);
@@ -158,7 +169,7 @@ namespace class2wsdl
             var binding = new XElement(xmlns + "binding");
 
             binding.Add(new XElement(soap + "binding",
-                new XAttribute("style","document"),
+                new XAttribute("style", "document"),
                 new XAttribute("transport", "http://schemas.xmlsoap.org/soap/http")
                 ));
 
@@ -169,7 +180,7 @@ namespace class2wsdl
                     new XAttribute("soapAction", tns.NamespaceName + "/" + m.Name),
                     new XAttribute("style", "document"))); //MISSING SOMETHING
 
-                var input = new XElement(xmlns +"input");
+                var input = new XElement(xmlns + "input");
                 input.Add(new XElement(soap + "body", new XAttribute("use", "literal")));
                 operation.Add(input);
 
@@ -183,13 +194,13 @@ namespace class2wsdl
             definitions.Add(binding);
 
             // write service (Punto de comunicación con la clase HolaMundo)
-            var service = new XElement( xmlns + "service", 
+            var service = new XElement(xmlns + "service",
                 new XAttribute("name", _classType.Name),
                     new XElement(xmlns + "documentation"),
                     new XElement(xmlns + "port",
                         new XAttribute("name", _classType.Name + "Port"),
                         new XAttribute("binding", "tns:" + _classType.Name + "Binding"),
-                        new XElement(soap + "address", new XAttribute("location", "http://localhost:50503/")) //default for now
+                        new XElement(soap + "address", new XAttribute("location", "http://tempuri.org/")) //default for now
                     )
                 );
             definitions.Add(service);
@@ -208,15 +219,26 @@ namespace class2wsdl
 
         private object GetXsdType(Type type)
         {
-            if (type.IsPrimitive || type.Equals(typeof(String))) {
+
+            if(type.IsPrimitive || type.Equals(typeof(String)))
+            {
+                if (type.Name.StartsWith("Int") || type.Name.StartsWith("Int"))
+                {
+                    return "xsd:integer";
+                }
+                else if (type.Name.Equals("Single"))
+                {
+                    return "xsd:byte";
+                }
                 return "xsd:" + type.Name.ToLower();
             }
-            else if(!classes.Contains(type))
+            else if (!classes.Contains(type))
             {
                 newClasses.Add(type);
                 classes.Add(type);
             }
-            return "tns:"+type.Name;
+
+            return "tns:" + type.Name;
         }
 
         private void AddNewClasses(XElement schema, XNamespace xsd)

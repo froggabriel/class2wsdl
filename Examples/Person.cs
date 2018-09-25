@@ -9,14 +9,25 @@ using System.Web;
 
 public class Person
 {
-    public int age { get { return age; } set { age = value; } }
-    public string name { get { return name; } set { name = value; } }
-    private double? height
+    public int age
+    {
+        get { return age; }
+        set { age = value; }
+    }
+
+    public string name
+    {
+        get
+        { return name; }
+        set { name = value; }
+    }
+
+    public double? height
     {
         get { return age; }
         set { height = value; }
     }
-    private double? weight
+    public double? weight
     {
         get { return age; }
         set { weight = value; }
