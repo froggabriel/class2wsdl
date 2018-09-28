@@ -19,13 +19,15 @@ namespace class2wsdl
             }
             else
             {
-                Console.WriteLine("2 parameters are required\n" +
-                    "Usage: class2wsdl.exe [compiled program without extension] [class name]\n" +
-                    "Example: class2wsdl.exe ClassLibrary Class1");
+                Console.WriteLine("\n2 parameters are required\n\n" +
+                    "Usage:\nclass2wsdl.exe [compiled program or class library without extension] [class name]\n\n" +
+                    "Example:\nGiven Class1 in ClassLibrary.dll:\n" +
+                    "class2wsdl.exe ClassLibrary Class1");
                 return;
             }
 
             new WSDLGenerator(assemblyStr, classStr).Run();
+            Console.WriteLine("Done");
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -14,8 +14,8 @@ namespace class2wsdl
         Type _classType;
         MethodInfo[] _methods;
         readonly string _wsdlStr;
-        ArrayList classes = new ArrayList();
-        ArrayList newClasses = new ArrayList();
+        LinkedList<Type> classes = new LinkedList<Type>();
+        LinkedList<Type> newClasses = new LinkedList<Type>();
 
         public WSDLGenerator(string assemblyStr, string classStr)
         {
@@ -31,17 +31,17 @@ namespace class2wsdl
             _classType = _assembly.GetType(classStr);
             Console.WriteLine("Got class type: " + this._classType.Name);
             _wsdlStr = classStr + ".wsdl";
-            newClasses = new ArrayList();
-            classes = new ArrayList();
         }
 
         public void Run()
         {
-            _methods = _classType.GetMethods(); //TODO revisar si públicos
+            _methods = _classType.GetMethods();
             Console.WriteLine("Extracted methods:");
             foreach (MethodInfo meth in _methods)
             {
-                Console.WriteLine(meth.Name);
+                if (!(meth.Name.Equals("ToString") || meth.Name.Equals("Equals")
+                    || meth.Name.Equals("GetHashCode") || meth.Name.Equals("GetType")))
+                    Console.WriteLine("\t" + meth.Name);
             }
 
             WriteWSDL();
@@ -96,7 +96,7 @@ namespace class2wsdl
                     {
                         paramElement = new XElement(xsd + "element",
                                                     new XAttribute("name", p.Name),
-                                                    new XAttribute("type", GetXsdType(p.ParameterType)),//TODO
+                                                    new XAttribute("type", GetXsdType(p.ParameterType)),
                                                     new XAttribute("nillable", !p.IsOptional)
                                                     );
                         sequence.Add(paramElement);
@@ -121,7 +121,7 @@ namespace class2wsdl
 
                     var resultElement = new XElement(xsd + "element",
                                                 new XAttribute("name", m.Name + "Result"),
-                                                new XAttribute("type", GetXsdType(m.ReturnType))//TODO
+                                                new XAttribute("type", GetXsdType(m.ReturnType))
                                                 );
                     sequence.Add(resultElement);
 
@@ -212,12 +212,13 @@ namespace class2wsdl
             settings.IndentChars = "\t";
 
             var xmlWriter = XmlWriter.Create(_wsdlStr, settings);
+            Console.WriteLine("Writing to " + _wsdlStr + "...");
             definitions.Save(xmlWriter);
             xmlWriter.Flush();
             xmlWriter.Close();
         }
 
-        private object GetXsdType(Type type)
+        private object GetXsdType(Type type, LinkedListNode<Type> thisNode = null)
         {
 
             if (type.IsPrimitive || type.Equals(typeof(String)))
@@ -234,8 +235,11 @@ namespace class2wsdl
             }
             else if (!classes.Contains(type))
             {
-                newClasses.Add(type);
-                classes.Add(type);
+                classes.AddLast(type);
+                if (thisNode == null)
+                    newClasses.AddLast(type);
+                else
+                    newClasses.AddAfter(thisNode, type);
             }
 
             return "tns:" + type.Name;
@@ -243,14 +247,15 @@ namespace class2wsdl
 
         private void AddNewClasses(XElement schema, XNamespace xsd)
         {
-            foreach (Type newClass in newClasses)
+            for (LinkedListNode<Type> thisNode = newClasses.First; thisNode != null; thisNode = thisNode.Next)
             {
-                XElement sequence = new XElement(xsd + "sequence");
+                var sequence = new XElement(xsd + "sequence");
+                var newClass = thisNode.Value;
                 foreach (var p in newClass.GetProperties())
                 {
                     sequence.Add(new XElement(xsd + "element",
                                         new XAttribute("name", p.Name),
-                                        new XAttribute("type", GetXsdType(p.PropertyType)),//TODO
+                                        new XAttribute("type", GetXsdType(p.PropertyType, thisNode)),
                                         new XAttribute("nillable", p.PropertyType.IsSubclassOf(typeof(Nullable)))));
                 }
                 schema.Add(
